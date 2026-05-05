@@ -1,15 +1,35 @@
 import requests
-import pandas as pd
+
+BASE_URL = "https://api.bcb.gov.br/dados/serie/bcdata.sgs"
+
 
 def get_selic():
-    url = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json"
-    
-    response = requests.get(url)
-    data = response.json()
+    url = f"{BASE_URL}.432/dados?formato=json&dataInicial=01/01/2000"
 
-    df = pd.DataFrame(data)
+    try:
+        response = requests.get(url, timeout=10)
 
-    df["valor"] = df["valor"].astype(float)
-    df["data"] = pd.to_datetime(df["data"], dayfirst=True)
+        if response.status_code != 200:
+            return []
 
-    return df
+        data = response.json()
+
+        if not isinstance(data, list):
+            return []
+
+        resultado = []
+
+        for item in data:
+            try:
+                resultado.append({
+                    "data": item["data"],
+                    "valor": float(item["valor"])
+                })
+            except:
+                continue
+
+        return resultado
+
+    except Exception as e:
+        print("Erro SELIC:", e)
+        return []
