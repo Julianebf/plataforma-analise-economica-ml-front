@@ -9,8 +9,7 @@ import {
   Tooltip, 
   ResponsiveContainer 
 } from "recharts";
-import { TrendingUp, DollarSign, Activity, Percent, ChevronUp, ChevronDown, Clock } from "lucide-react"; // Adicionei Clock
-import { api } from "./services/api";
+import { TrendingUp, DollarSign, Activity, Percent } from "lucide-react";
 
 type Dado = {
   data: string;
@@ -123,7 +122,6 @@ useEffect(() => {
       ? "queda"
       : "estavel"
     : null;
-    const activeData = ipca[activeIndex];
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 font-sans p-4 md:p-8 min-[1901px]:px-[90px]">
