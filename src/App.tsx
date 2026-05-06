@@ -17,6 +17,9 @@ type Dado = {
 };
 
 export default function App() {
+
+  const API = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
+
   const [ipca, setIpca] = useState<Dado[]>([]);
   const [selic, setSelic] = useState<Dado[]>([]);
   const [dolar, setDolar] = useState<Dado[]>([]);
@@ -31,7 +34,7 @@ export default function App() {
 
 const [activeIndex, setActiveIndex] = useState(0);
   const carregarDados = () => {
-  fetch("/ipca")
+  fetch(`${API}/ipca`)
     .then((res) => res.json())
     .then((data) => {
       setIpca(data.dados_ultimos_12_meses || []);
@@ -47,7 +50,7 @@ const [activeIndex, setActiveIndex] = useState(0);
       }));
     });
 
-  fetch("/selic")
+  fetch(`${API}/selic`)
     .then((res) => res.json())
     .then((data) => {
       setSelic(data.dados_ultimos_12_registros || []);
@@ -63,7 +66,7 @@ const [activeIndex, setActiveIndex] = useState(0);
       }));
     });
 
-  fetch("/dolar")
+  fetch(`${API}/dolar`)
     .then((res) => res.json())
     .then((data) => {
       setDolar(data.dados_ultimos_30_dias || []);
@@ -92,7 +95,7 @@ useEffect(() => {
   const interval = setInterval(() => {
     setActiveIndex((prev) => (prev + 1) % ipca.length);
   }, 1500); 
-
+  
   return () => clearInterval(interval);
 }, [ipca]);
   const ultimoIPCA = ipca[ipca.length - 1]?.valor;
