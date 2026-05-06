@@ -31,7 +31,7 @@ export default function App() {
 
 const [activeIndex, setActiveIndex] = useState(0);
   const carregarDados = () => {
-  fetch("/api/ipca")
+  fetch("/ipca")
     .then((res) => res.json())
     .then((data) => {
       setIpca(data.dados_ultimos_12_meses || []);
@@ -47,7 +47,7 @@ const [activeIndex, setActiveIndex] = useState(0);
       }));
     });
 
-  fetch("/api/selic")
+  fetch("/selic")
     .then((res) => res.json())
     .then((data) => {
       setSelic(data.dados_ultimos_12_registros || []);
@@ -63,7 +63,7 @@ const [activeIndex, setActiveIndex] = useState(0);
       }));
     });
 
-  fetch("/api/dolar")
+  fetch("/dolar")
     .then((res) => res.json())
     .then((data) => {
       setDolar(data.dados_ultimos_30_dias || []);
